@@ -1,0 +1,21 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  name: oracle-connector
+  labels:
+    strimzi.io/cluster: my-connect-cluster
+  namespace: openshift-operators
+spec:
+  config:
+     database.hostname : 10.107.88.174
+     database.port : 1521  
+     database.user : hr 
+     database.password : palsys 
+     database.dbname : laiora19
+     database.server.name : laiorc19   
+     database.url : jdbc:oracle:thin:@//10.107.88.174:1521/laiora19c
+     database.history.kafka.bootstrap.servers : my-cluster-kafka-bootstrap:9092 
+     database.history.kafka.topic: oracle-schema-changes.inventory
+  class: io.debezium.connector.oracle.OracleConnector
+  tasksMax: 1
+

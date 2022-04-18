@@ -1,0 +1,20 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  name: postgres-connector
+  labels:
+    strimzi.io/cluster: my-connect-cluster
+  namespace: openshift-operators
+spec:
+  config:
+     database.hostname: 10.107.88.174
+     database.port: 5432
+     database.user: postgres
+     database.password: postgres
+     database.dbname: postgres
+     database.server.name: postgres
+     table.include.list: public.tab1
+     plugin.name: pgoutput
+  class: io.debezium.connector.postgresql.PostgresConnector
+  tasksMax: 1
+

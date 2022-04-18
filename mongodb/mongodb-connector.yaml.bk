@@ -1,0 +1,22 @@
+apiVersion: kafka.strimzi.io/v1beta1
+  kind: KafkaConnector
+  metadata:
+    name: mongodb-connector 
+    labels: strimzi.io/cluster: my-connect-cluster
+  spec:
+    class: io.debezium.connector.mongodb.MongoDbConnector 
+  config:
+    value.converter: org.apache.kafka.connect.json.JsonConverter
+    output.format.value: json
+    mongodb.name: mongodb
+    mongodb.user: root
+    value.converter.schemas.enable: false
+    mongodb.hosts: 'rs0/10.107.88.176:27017'
+    key.converter: org.apache.kafka.connect.json.JsonConverter
+    collection.include.list: inventory.customers
+    output.format.key: json
+    mongodb.password: root
+    database.include.list: inventory
+    key.converter.schemas.enable: false
+  tasksMax: 1
+

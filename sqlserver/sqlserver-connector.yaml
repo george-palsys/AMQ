@@ -1,0 +1,20 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  name: sqlserver-connector
+  labels:
+    strimzi.io/cluster: my-connect-cluster
+  namespace: openshift-operators
+spec:
+  config:
+    database.hostname: 10.107.88.180 
+    database.port: 1433 
+    database.user: user 
+    database.password: user 
+    database.dbname: msdb01 
+    database.server.name: sqlserver
+    table.include.list: dbo.customer 
+    database.history.kafka.bootstrap.servers: my-cluster-kafka-bootstrap:9092 
+    database.history.kafka.topic: dbhistory.sqlserver
+  class: io.debezium.connector.sqlserver.SqlServerConnector
+  tasksMax: 1
