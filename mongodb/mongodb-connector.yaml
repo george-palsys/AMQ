@@ -3,7 +3,7 @@ kind: KafkaConnector
 metadata:
   name: mongodb-connector
   labels:
-    strimzi.io/cluster: my-connect-cluster
+    strimzi.io/cluster: mongodb-connect
   namespace: openshift-operators
 spec:
   config:
@@ -15,10 +15,14 @@ spec:
      value.converter.schemas.enable: false
      mongodb.hosts: 'rs0/10.107.88.176:27017'
      key.converter: org.apache.kafka.connect.json.JsonConverter
-     collection.include.list: inventory.customers
+     collection.include.list: inventory.orders
      output.format.key: json
      mongodb.password: root
      database.include.list: inventory
-     key.converter.schemas.enable: false
+     transforms: filter
+     transforms.filter.type: io.debezium.transforms.Filter
+     transforms.filter.language: jsr223.groovy
+     transforms.filter.topic.regex: mongodb.inventory.orders
+     transforms.filter.condition: value.op == 'u' || value.op == 'c' || value.op == 'd'
   class: io.debezium.connector.mongodb.MongoDbConnector
   tasksMax: 1
